@@ -148,6 +148,8 @@ struct imap_mailstorage {
 
 enum {
   IMAP_AUTH_TYPE_PLAIN,            /* plain text authentication */
+  IMAP_AUTH_TYPE_SASL_XOAUTH2,     /* SASL xoauth2 */
+  IMAP_AUTH_TYPE_SASL_LOGIN,       /* SASL login */
   IMAP_AUTH_TYPE_SASL_ANONYMOUS,   /* SASL anonymous */
   IMAP_AUTH_TYPE_SASL_CRAM_MD5,    /* SASL CRAM MD5 */
   IMAP_AUTH_TYPE_SASL_KERBEROS_V4, /* SASL KERBEROS V4 */

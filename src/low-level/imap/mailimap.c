@@ -1604,6 +1604,13 @@ int mailimap_authenticate(mailimap * session, const char * auth_type,
   sasl_secret_t * secret;
   int res;
   size_t len;
+  struct mailimap_continue_req * cont_req;
+  char * response_base64;
+  int got_response;
+  char * encoded;
+  unsigned int encoded_len;
+  unsigned int max_encoded;
+
   
   if (session->imap_state != MAILIMAP_STATE_NON_AUTHENTICATED) {
     res = MAILIMAP_ERROR_BAD_STATE;
@@ -1679,6 +1686,39 @@ int mailimap_authenticate(mailimap * session, const char * auth_type,
     goto free_sasl_conn;
   }
 
+  
+  if (sasl_out_len != 0) {
+    max_encoded = ((sasl_out_len + 2) / 3) * 4;
+    encoded = malloc(max_encoded + 1);
+    if (encoded == NULL) {
+      res = MAILIMAP_ERROR_MEMORY;
+      goto free_sasl_conn;
+    }
+    
+    r = sasl_encode64(sasl_out, sasl_out_len,
+                      encoded, max_encoded + 1, &encoded_len);
+    if (r != SASL_OK) {
+      free(encoded);
+      res = MAILIMAP_ERROR_MEMORY;
+      goto free_sasl_conn;
+    }
+    
+    r = mailimap_space_send(session->imap_stream);
+    if (r != MAILIMAP_NO_ERROR) {
+      res = r;
+      goto free_sasl_conn;
+    }
+    
+    r = mailimap_token_send(session->imap_stream, encoded);
+    
+    free(encoded);
+    
+    if (r != MAILIMAP_NO_ERROR) {
+      res = r;
+      goto free_sasl_conn;
+    }
+  }
+
   r = mailimap_crlf_send(session->imap_stream);
   if (r != MAILIMAP_NO_ERROR) {
     res = r;
@@ -1691,13 +1731,6 @@ int mailimap_authenticate(mailimap * session, const char * auth_type,
   }
   
   while (1) {
-    struct mailimap_continue_req * cont_req;
-    char * response_base64;
-    int got_response;
-    char * encoded;
-    unsigned int encoded_len;
-    unsigned int max_encoded;
-    
     if (mailimap_read_line(session) == NULL) {
       res = MAILIMAP_ERROR_STREAM;
       goto free_sasl_conn;
