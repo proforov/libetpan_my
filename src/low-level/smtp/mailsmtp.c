@@ -554,6 +554,9 @@ int mailesmtp_parse_ehlo(mailsmtp * session)
         } else if (strncasecmp(response, "KERBEROS_V4", 11) == 0) {
           session->auth |= MAILSMTP_AUTH_KERBEROS_V4;
           response += 11;
+        } else if (strncasecmp(response, "XOAUTH2", 7) == 0) {
+          session->auth |= MAILSMTP_AUTH_XOAUTH2;
+          response +=7;
         } else {
           /* unknown auth method - jump to next word or eol */
           while (!isdelim(response[0]) || response[0] == '\r')
