@@ -2005,10 +2005,10 @@ mailimap_search(mailimap * session, const char * charset,
 
   if (mailimap_read_line(session) == NULL)
     return MAILIMAP_ERROR_STREAM;
-
+    
   r = mailimap_parse_response(session, &response);
   if (r != MAILIMAP_NO_ERROR)
-    return r;
+      return r;
 
   * result = session->imap_response_info->rsp_search_result;
   session->imap_response_info->rsp_search_result = NULL;

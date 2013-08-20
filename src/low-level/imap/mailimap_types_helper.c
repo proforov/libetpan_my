@@ -825,6 +825,28 @@ mailimap_search_key_new_text(char * sk_text)
 }
 
 struct mailimap_search_key *
+mailimap_search_key_new_text_utf8(char * sk_text)
+{
+    return mailimap_search_key_new(MAILIMAP_SEARCH_KEY_TEXT_UTF_8, NULL, NULL,
+                                   NULL, NULL, NULL, NULL, NULL, NULL,
+                                   NULL, sk_text, NULL, NULL, NULL,
+                                   NULL, 0, NULL,
+                                   NULL, NULL, NULL, NULL, NULL,
+                                   0, NULL, NULL, NULL);
+}
+
+struct mailimap_search_key *
+mailimap_search_key_new_text_x_gm_raw(char * sk_text)
+{
+    return mailimap_search_key_new(MAILIMAP_SEARCH_KEY_TEXT_X_GM_RAW, NULL, NULL,
+                                   NULL, NULL, NULL, NULL, NULL, NULL,
+                                   NULL, sk_text, NULL, NULL, NULL,
+                                   NULL, 0, NULL,
+                                   NULL, NULL, NULL, NULL, NULL,
+                                   0, NULL, NULL, NULL);
+}
+
+struct mailimap_search_key *
 mailimap_search_key_new_to(char * sk_to)
 {
   return mailimap_search_key_new(MAILIMAP_SEARCH_KEY_TO, NULL, NULL,

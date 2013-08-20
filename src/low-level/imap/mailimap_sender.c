@@ -1918,7 +1918,6 @@ mailimap_uid_search_send(mailstream * fd, const char * charset,
                      "(" search-key *(SP search-key) ")"
 */
 
-
 static int mailimap_search_key_send(mailstream * fd,
    				struct mailimap_search_key * key)
 {
@@ -2069,6 +2068,36 @@ static int mailimap_search_key_send(mailstream * fd,
 	if (r != MAILIMAP_NO_ERROR)
       return r;
     return MAILIMAP_NO_ERROR;
+
+  case MAILIMAP_SEARCH_KEY_TEXT_UTF_8: //TEXT {n}\n\r%search_literal%
+      r = mailimap_token_send(fd, "TEXT");
+      if (r != MAILIMAP_NO_ERROR)
+          return r;
+      r = mailimap_space_send(fd);
+      if (r != MAILIMAP_NO_ERROR)
+              return r;
+          r = mailimap_literal_send(fd, key->sk_data.sk_text, NULL, NULL);
+          if (r != MAILIMAP_NO_ERROR)
+              return r;
+      r = mailimap_crlf_send(fd);
+      if (r != MAILIMAP_NO_ERROR)
+          return r;
+      return MAILIMAP_NO_ERROR;
+
+  case MAILIMAP_SEARCH_KEY_TEXT_X_GM_RAW: //TEXT {n}\n\r%search_literal%
+      r = mailimap_token_send(fd, "X-GM-RAW");
+      if (r != MAILIMAP_NO_ERROR)
+          return r;
+      r = mailimap_space_send(fd);
+      if (r != MAILIMAP_NO_ERROR)
+          return r;
+      r = mailimap_literal_send(fd, key->sk_data.sk_text, NULL, NULL);
+      if (r != MAILIMAP_NO_ERROR)
+          return r;
+      r = mailimap_crlf_send(fd);
+      if (r != MAILIMAP_NO_ERROR)
+          return r;
+      return MAILIMAP_NO_ERROR;
 
   case MAILIMAP_SEARCH_KEY_TO:
     r = mailimap_token_send(fd, "TO");

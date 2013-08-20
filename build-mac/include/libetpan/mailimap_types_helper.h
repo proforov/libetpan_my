@@ -535,9 +535,36 @@ mailimap_search_key_new_subject(char * sk_subject);
     be allocated with malloc()
 */
 
+/*
+ this function creates a condition structure to match messages with
+ message text part
+ 
+ @param text this is the message text to match, it should
+ be allocated with malloc()
+ */
 struct mailimap_search_key *
 mailimap_search_key_new_text(char * sk_text);
 
+/*
+ this function creates a condition structure to match messages with
+ message text in UTF-8
+ 
+ @param text this is the message text to match, it should
+ be allocated with malloc()
+ */
+struct mailimap_search_key *
+    mailimap_search_key_new_text_utf8(char * sk_text);
+
+/*
+ this function creates a condition structure to match messages with
+ message text in UTF-8
+ 
+ @param text this is the message text to match, it should
+ be allocated with malloc()
+ */
+struct mailimap_search_key *
+    mailimap_search_key_new_text_x_gm_raw(char * sk_text);
+    
 /*
   this function creates a condition structure to match messages with 
   To field

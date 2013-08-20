@@ -2711,6 +2711,8 @@ mailimap_search_key_new(int sk_type,
     key->sk_data.sk_subject = sk_subject;
     break;
   case MAILIMAP_SEARCH_KEY_TEXT:
+  case MAILIMAP_SEARCH_KEY_TEXT_UTF_8:
+  case MAILIMAP_SEARCH_KEY_TEXT_X_GM_RAW:
     key->sk_data.sk_text = sk_text;
     break;
   case MAILIMAP_SEARCH_KEY_TO:
@@ -2790,6 +2792,7 @@ void mailimap_search_key_free(struct mailimap_search_key * key)
     mailimap_astring_free(key->sk_data.sk_subject);
     break;
   case MAILIMAP_SEARCH_KEY_TEXT:
+  case MAILIMAP_SEARCH_KEY_TEXT_UTF_8:
     mailimap_astring_free(key->sk_data.sk_text);
     break;
   case MAILIMAP_SEARCH_KEY_TO:

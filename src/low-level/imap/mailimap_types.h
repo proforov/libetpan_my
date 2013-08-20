@@ -2847,8 +2847,10 @@ enum {
   MAILIMAP_SEARCH_KEY_SET,        /* messages whose number (or unique
                                      identifiers in case of UID SEARCH) are
                                      in the given range */
-  MAILIMAP_SEARCH_KEY_MULTIPLE    /* the boolean operator between the
+  MAILIMAP_SEARCH_KEY_MULTIPLE,    /* the boolean operator between the
                                      conditions is AND */
+  MAILIMAP_SEARCH_KEY_TEXT_UTF_8,    //this two are equivalent, and uses literal search
+  MAILIMAP_SEARCH_KEY_TEXT_X_GM_RAW  //except this type uses google search string
 };
 
 /*
